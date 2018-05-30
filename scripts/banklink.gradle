@@ -1,0 +1,47 @@
+apply plugin: 'java'
+
+version='2.1.14'
+
+project.group='com.nortal.banklink'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+	//mavenLocal()
+}
+
+
+project.ext {
+	bouncyCastleVersion = '1.49'
+
+
+	lib = { groupName,artifactName,artifactVersion ->
+    	groupName+':'+artifactName+':'+artifactVersion
+    }
+    
+    commonsSM = { artifactName, artifactVersion ->
+    	smbundle('commons-'+artifactName, artifactVersion)
+    }
+
+    commonsA = { artifactName, artifactVersion ->
+    	lib('org.apache.commons','commons-'+artifactName,artifactVersion)
+    }
+
+    commons = { artifactName, artifactVersion ->
+    	lib('commons-'+artifactName,'commons-'+artifactName,artifactVersion)
+    }
+}
+
+dependencies {
+    compile lib('org.projectlombok','lombok','1.16.8')
+    
+    testCompile lib('junit', 'junit', '4.11')
+    testRuntime lib('org.slf4j', 'slf4j-log4j12', '1.7.7'), lib('log4j','log4j','1.2.17')
+}
+
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+
+jar.from project.file("src/main/java")
+jar.onlyIf { project.file('src/main').exists() }
+uploadArchives.onlyIf { project.file('src/main').exists() }

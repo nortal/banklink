@@ -1,0 +1,33 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		jcenter()  
+	}
+	dependencies {
+		classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+		classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1'
+	}
+}
+
+apply plugin: 'eclipse'
+
+
+subprojects {
+    apply from: "${rootDir}/scripts/eclipse.gradle"
+    apply from: "${rootDir}/scripts/banklink.gradle"
+    apply from: "${rootDir}/scripts/osgi.gradle"
+    apply from: "${rootDir}/scripts/maven.gradle"
+    //apply from: "${rootDir}/scripts/artifactory.gradle"
+    
+    apply plugin: 'license'
+
+	license {
+		header rootProject.file('LICENSE_HEADER')
+		strictCheck true
+		skipExistingHeaders true
+		ext.year = Calendar.getInstance().get(Calendar.YEAR)
+		ext.company = "Nortal AS"
+	}
+}
+
+task wrapper(type: Wrapper) { gradleVersion = '3.3' }

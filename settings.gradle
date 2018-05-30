@@ -1,0 +1,20 @@
+rootProject.name = 'banklink'
+
+include 'core', 'link', 'authentication', 'payment' 
+
+//include 'spec-lv', 
+include 'authentication-lv'
+include 'authentication-lt'
+
+include 'example'
+
+rootProject.children.each { it ->
+    it.name = 'banklink-' + it.name
+}
+
+private nameChildren(parent) {
+    parent.children.each {
+        it.name=it.parent.name+"-"+it.name
+        nameChildren(it)
+    }
+}

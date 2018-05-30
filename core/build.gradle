@@ -1,0 +1,11 @@
+dependencies {
+    compile lib('javax.servlet','javax.servlet-api','3.0.1')
+    compile lib('log4j','log4j','1.2.17')
+
+    compile commons('logging','1.1.1')
+    compile commonsA('lang3', '3.3.2')
+    compile commonsA('collections4','4.0')
+    compile commons('io','2.4')
+    compile commons('validator','1.4.0')
+    compile commons('codec','1.8')
+}

@@ -1,0 +1,12 @@
+apply plugin: 'war'
+
+dependencies {
+	compile project(':banklink-authentication')
+	compile 'org.bouncycastle:bcprov-jdk16:1.46'
+	compile 'log4j:log4j:1.2.17'
+	compile 'org.springframework:spring-webmvc:3.2.1.RELEASE'
+	compile 'org.springframework:spring-web:3.2.1.RELEASE'
+	compile 'javax.servlet:jstl:1.2'
+	compile 'taglibs:standard:1.1.2'
+}
+

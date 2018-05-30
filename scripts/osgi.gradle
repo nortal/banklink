@@ -1,0 +1,60 @@
+ext {
+	namePrefix = 'banklink-'
+	namespacePrefix = 'com.nortal.banklink.'
+}
+
+apply plugin: 'osgi'
+
+jar {
+    manifest {
+    	attributes 'Provider': 'Nortal AS'
+    	instruction 'Bundle-Vendor', 'Nortal AS'
+    
+    
+        attributes 'Build-Time': (new java.text.SimpleDateFormat('yyyy.MM.dd HH:mm:ss.SSS').format(new java.util.Date()))
+
+        def namespace = namespacePrefix + (project.name.replace(namePrefix, '').replace('-', '.'))
+
+        attributes 'Bundle-Namespace': namespace
+        instruction 'Export-Package', '!*.internal.*',namespace+'.*;version='+project.version
+
+        instruction 'Import-Package', '*'
+
+        instruction '-nouses', 'false'
+        instruction 'plugin', 'aQute.lib.spring.SpringComponent'
+    }
+    
+    doLast {
+    	def osgiImports = jar.manifest.effectiveManifest.attributes.get('Import-Package')
+    	if(osgiImports==null)
+    	 	osgiImports=''
+    	
+    	def impMatch = java.util.regex.Pattern.compile(',([^0-9\\]\\)])').matcher(osgiImports)
+    	def impList = impMatch.replaceAll(',\n\t$1')
+    	
+    	def impSet = new java.util.HashSet()
+    	def duplicates = new java.util.LinkedHashSet()
+    	impList.split('\n\t').each { imp ->
+    		def key = imp.split('[;,]')[0]
+			if(impSet.contains(key)) {
+				duplicates.add(key)
+			} else {
+				impSet.add(key)
+			}
+    	}
+    	
+    	if(!duplicates.isEmpty()) {
+        	manifest.getInstructions().entrySet().each {
+		    	println it.getKey() + ': ' + it.getValue()
+		    }
+		    
+		    println 'Imports:\n\t' + impList
+	    	
+	    	throw new java.lang.RuntimeException('Duplicate osgi imports detected after manifest generation: \n\t' + duplicates.join('\n\t'));
+    	}
+     }
+}
+
+
+task cleanJar << { project.jar.archivePath.delete() }
+clean.dependsOn cleanJar

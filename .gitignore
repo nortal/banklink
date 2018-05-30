@@ -1,0 +1,18 @@
+syntax: glob
+.gradle
+build
+dist
+**/bin
+**/build
+work
+*.iml
+
+\.gradle
+\.DS_Store
+\.sonar
+
+syntax: regexp
+\.classpath
+(.+)?\.settings
+(.+)?\.project
+\.idea

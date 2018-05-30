@@ -1,0 +1,65 @@
+/**
+ * This would require buildscript dependency to be defined in main build.gradle file. 
+ * Defining it here would not make the plugin classes available for subprojects.
+ * <pre>
+ * {@code
+ * 
+ * buildscript {
+ *	repositories {
+ *		jcenter()  }
+ *
+ *	dependencies {
+ *		classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1' 
+ *		}
+ *
+ *	configurations.classpath {
+ *		resolutionStrategy {
+ *			failOnVersionConflict()
+ *			cacheDynamicVersionsFor 0, 'seconds'
+ *			cacheChangingModulesFor 0, 'seconds'
+ *			force "commons-codec:commons-codec:1.8"
+ *			force "com.google.guava:guava:15.0"
+ *		}
+ *	}
+ *}
+ *
+ *}
+ *</pre>
+ * 
+ * @author Priit Liivak
+ *
+ */
+apply plugin: 'com.jfrog.artifactory-upload'
+
+artifactory {
+	contextUrl = 'https://artifact.nortal.com'
+	
+	publish {
+		repository {
+			repoKey = ("$it.project.status"=='release')?'libs-release-local':'libs-snapshot-local' //The Artifactory repository key to publish to
+			username = "${artifactory_user}" //The publisher user name
+			password = "${artifactory_password}" //The publisher password
+		}
+		defaults {
+			publishConfigs('archives', 'published')
+			properties = ['build.status': "$it.project.status".toString()]
+			properties = ['build.branch': "$it.project.version".toString()]
+			/*
+			 * Publish generated POM files to Artifactory (true by default). 
+			 * This requires that you apply maven plugin to projects
+			 */
+			publishPom = true
+			//Publish generated Ivy descriptor files to Artifactory (true by default)
+			publishIvy = false
+		}
+	}
+	resolve {
+		repository {
+			repoKey = 'repo' //The Artifactory (preferably virtual) repository key to resolve from
+			username = "${artifactory_user}" //Optional resolver user name (leave out to use anonymous resolution)
+			password = "${artifactory_password}" //The resolver password
+			maven = true
+		}
+	}
+}
+

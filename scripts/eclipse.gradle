@@ -1,0 +1,24 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+eclipse.classpath {
+    downloadSources true
+
+    containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'//, 'org.springsource.ide.eclipse.gradle.dsld.classpathcontainer', 'GROOVY_DSL_SUPPORT', 'GROOVY_SUPPORT'
+
+    file {
+        whenMerged { classpath ->
+            classpath.entries.findAll { entry -> entry.kind == 'output' }*.path = 'build/classes/main'
+            classpath.entries.findAll { entry -> entry.kind == 'src' && entry.path=='src/main/resources' }*.output = 'build/resources/main'
+            classpath.entries.findAll { entry -> entry.kind == 'src' && entry.path=='src/test/java' }*.output = 'build/classes/test'
+            classpath.entries.findAll { entry -> entry.kind == 'src' && entry.path=='src/test/resources' }*.output = 'build/resources/test'
+        }
+    }
+}
+
+eclipse.project {
+    natures.clear()
+    natures 'org.springsource.ide.eclipse.gradle.core.nature', 'org.eclipse.jdt.core.javanature', 'org.eclipse.jdt.groovy.core.groovyNature'
+}
+
+
