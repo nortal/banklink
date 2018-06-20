@@ -16,6 +16,7 @@
 package com.nortal.banklink.authentication.link.standard;
 
 import com.nortal.banklink.authentication.link.AuthLinkBase;
+import com.nortal.banklink.authentication.link.AuthLinkInfoParser;
 import com.nortal.banklink.core.BanklinkException;
 import com.nortal.banklink.core.algorithm.Algorithm;
 import com.nortal.banklink.core.algorithm.Algorithm008;
@@ -52,10 +53,16 @@ public class IPizzaStandardAuthLink extends AuthLinkBase<IPizzaConfig> {
     private String[] tryReEncodes = {};
 
     @Getter
-    private final IPizzaStandardAuthInfoParser parser = new IPizzaStandardAuthInfoParser();
+    private final AuthLinkInfoParser parser;
 
     @Getter
-    private final NonceManager nonce = new DefaultNonceManager();
+    private final NonceManager nonce;
+
+    public IPizzaStandardAuthLink(Bank bank) {
+        this.bank = bank;
+        this.parser = new IPizzaStandardAuthInfoParser();
+        this.nonce = new DefaultNonceManager();
+    }
 
     @Override
     public boolean supportsMessage(HttpServletRequest req) {
