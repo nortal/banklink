@@ -4,7 +4,7 @@ version='2.1.15'
 
 project.group='com.nortal.banklink'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -36,8 +36,8 @@ project.ext {
 dependencies {
     compile lib('org.projectlombok','lombok','1.16.8')
     
-    testCompile lib('junit', 'junit', '4.11')
-    testRuntime lib('org.slf4j', 'slf4j-log4j12', '1.7.7'), lib('log4j','log4j','1.2.17')
+    testCompile lib('junit', 'junit', '4.12')
+    testRuntime lib('org.slf4j', 'slf4j-log4j12', '1.7.25'), lib('log4j','log4j','1.2.17')
 }
 
 tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
