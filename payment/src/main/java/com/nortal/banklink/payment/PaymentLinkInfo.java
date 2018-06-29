@@ -19,8 +19,9 @@ import com.nortal.banklink.link.Bank;
 import com.nortal.banklink.link.BankLinkInfo;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import lombok.Builder;
 import lombok.Value;
-import lombok.experimental.Builder;
 
 /**
  * Payment information extracted from banklink response message.
