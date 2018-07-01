@@ -1,6 +1,9 @@
 Banklink library
 ============================
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.nortal.banklink/banklink-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.nortal.banklink/banklink-core)
+[![License](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/nortal/banklink/blob/master/LICENSE)
+
 The Nortal Banklink project is a set of Java libraries that assist developers when implementing the authentication and payment links to Estonian banks.
 
 
