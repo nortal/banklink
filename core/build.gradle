@@ -1,6 +1,6 @@
 dependencies {
     compile lib('javax.servlet','javax.servlet-api','3.0.1')
-    compile lib('org.apache.logging.log4j','log4j-1.2-api','2.11.0')
+    compile lib('org.apache.logging.log4j','log4j-1.2-api','2.16.0')
 
     compile commons('logging','1.2')
     compile commonsA('lang3', '3.7')
